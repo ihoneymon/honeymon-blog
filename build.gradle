@@ -26,59 +26,63 @@ configure(allprojects) {
   sourceCompatibility = 1.8
 	targetCompatibility = 1.8
 
-	repositories {
-		  mavenCentral()
-	}
+  repositories {
+    mavenCentral()
+  }
 }
 
 project(':frontend') {
   sourceSets.main.resources { 
   	srcDirs 'dist' 
- 	}
+  }
 	
-	jar {
-		from "dist"
-		includeEmptyDirs = false
-	}
+  jar {
+    from "dist"
+    includeEmptyDirs = false
+  }
 	
-	clean {
-		delete ".tmp"
-		delete "dist"
-	}
+  clean {
+    delete ".tmp"
+    delete "dist"
+  }
 }
 
+/**
+ * RESTful 하게 만들어봅시다.
+ */
 project(':backend') {
   apply plugin: 'spring-boot' 
   apply plugin: 'war'
  
   jar {
-		baseName = baseName
-		version = baseVersion
-	}
+	baseName = baseName
+	version = baseVersion
+  }
 
-	war {
-		  baseName = baseName
-		  version = baseVersion
-	}
-	 
-	configurations {
-	  providedRuntime
-	  all*.exclude module: 'commons-logging'
-	}
+  war {
+  	baseName = baseName
+	version = baseVersion
+  }
+ 
+  configurations {
+    providedRuntime
+    all*.exclude module: 'commons-logging'
+  }
 	
   dependencies {
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.springframework.boot:spring-boot-starter-mustache")
-    //compile("org.springframework.boot:spring-boot-starter-security")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    runtime("com.h2database:h2")
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.springframework.boot:spring-boot-starter-mustache"
+    compile "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.projectlombok:lombok:1.16.6"
+    runtime "com.h2database:h2"
     runtime	project(':frontend')
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testCompile("org.springframework.boot:spring-boot-starter-test") 
-	}
+  }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.6'
+  gradleVersion = '2.6'
 }
