@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
  * @author honeymon
  *
  */
-public enum AccessAuthority implements GrantedAuthority {
+public enum UserAuthority implements GrantedAuthority {
     /**
      * 주인장, 모든 권한을 
      */
@@ -29,7 +29,7 @@ public enum AccessAuthority implements GrantedAuthority {
     private String msgKey;
     private String description;
 
-    private AccessAuthority(String code, String msgKey, String description) {
+    private UserAuthority(String code, String msgKey, String description) {
         this.code = code;
         this.msgKey = msgKey;
         this.description = description;

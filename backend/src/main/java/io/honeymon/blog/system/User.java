@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author honeymon
  *
  */
-public class Owner implements UserDetails {
+public class User implements UserDetails {
     private static final long serialVersionUID = 7019782042185736325L;
 
     @Id
@@ -39,7 +39,7 @@ public class Owner implements UserDetails {
 
     private String saltKey;
 
-    protected Owner() {
+    protected User() {
         generateSaltKeyAndSet();
     }
 
@@ -98,7 +98,7 @@ public class Owner implements UserDetails {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Owner other = (Owner) obj;
+        User other = (User) obj;
         if (email == null) {
             if (other.email != null)
                 return false;
