@@ -66,6 +66,21 @@ public class User implements UserDetails {
         generateSaltKeyAndSet();
         registryDefaultUserAuthority();
     }
+    
+    /**
+     * @param username
+     * @param password
+     * @param nickname
+     * @param email
+     */
+    public User(String username, String password, String nickname, String email) {
+        this();
+        
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+    }    
 
     /**
 	 * 
@@ -106,5 +121,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }
