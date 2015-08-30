@@ -11,19 +11,19 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public enum UserAuthority implements GrantedAuthority {
     /**
-     * 주인장, 모든 권한을 
+     * 주인장: 모든 권한부여
      */
-    HOST("host", "code.accessAuthority.host", "주인장"), 
-    
+    HOST("host", "code.accessAuthority.host", "주인장"),
+
     /**
-     * 글작성, 수정, 삭제가능한 협업자
+     * 협력자: 글작성, 수정, 삭제가능
      */
     COWORKER("host", "code.accessAuthority.host", "협력자"),
-    
+
     /**
-     * 읽기권한
+     * 기본권한: 읽기
      */
-    NOVICE("novice", "code.accessAuthority.novice", "노비");
+    USER("user", "code.accessAuthority.user", "사용자");
 
     private String code;
     private String msgKey;
