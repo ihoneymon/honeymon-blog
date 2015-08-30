@@ -32,26 +32,66 @@ public class PostRepositoryTest {
     private PostRepository postRepository;
 
     @Test
-    public void test() {
-        Post post = new Post("Honeymon's First post", "Hello world, honeymon");
+    public void 포스트_저장기능확인() {
+        String title = "Honeymon's First post";
+        String contents = "Hello world, honeymon";
+        Post post = new Post(title, contents);
 
         postRepository.save(post);
 
         assertThat(false, is(post.isNew()));
+        assertThat(title, is(post.getTitle()));
+        assertThat(contents, is(post.getContets()));
+        assertNotNull(post.getId());
     }
 
     @Test
-    public void testLazyLoading() {
+    public void 저장된포스트목록가져오기() {
         Post post = new Post("Honeymon's First post", "Hello world, honeymon");
         Post post2 = new Post("Honeymon's Second post", "Hello world, honeymon");
-        
+
+        postRepository.save(post);
+        postRepository.save(post2);
+
+        List<Post> posts = postRepository.findAll();
+
+        log.debug("Posts: {}", posts);
+
+        assertThat(true, is(posts.contains(post)));
+        assertThat(false, is(post.isNew()));
+        assertThat(false, is(post2.isNew()));
+    }
+
+    @Test
+    public void 포스트제목변경저장확인() {
+        String originTitle = "Honeymon's First post";
+        String originContents = "Hello world, honeymon";
+        Post post = new Post(originTitle, originContents);
+
+        postRepository.save(post);
+
+        String changeTitle = "Change title";
+        String changeContents = "Change contents";
+        post.changeTitle(changeTitle);
+        post.changeContents(changeContents);
+
+        Post modifyPost = postRepository.findOne(post.getId());
+
+        assertThat(changeTitle, is(modifyPost.getTitle()));
+        assertThat(changeContents, is(modifyPost.getContets()));
+    }
+    
+    @Test
+    public void 포스트삭제확인() {
+        Post post = new Post("Honeymon's First post", "Hello world, honeymon");
+        Post post2 = new Post("Honeymon's Second post", "Hello world, honeymon");
         postRepository.save(post);
         postRepository.save(post2);
         
-        List<Post> posts = postRepository.findAll();
+        postRepository.delete(post);
         
-        log.debug("Posts: {}", posts);
+        Post findPost = postRepository.findOne(post.getId());
         
-        assertThat(true, is(posts.contains(post)));
+        assertNull(findPost);
     }
 }

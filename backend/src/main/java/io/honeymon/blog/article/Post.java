@@ -83,12 +83,12 @@ public class Post extends AbstractAuditable<User, Long> {
     }
 
     /**
-     * @param contents
+     * @param changeContents
      * @return
      */
-    public Post changeContents(String contents) {
-        Assert.hasText(contents, "error.post.required.contents");
-        this.contents.changeContents(contents);
+    public Post changeContents(String changeContents) {
+        Assert.hasText(changeContents, "error.post.required.contents");
+        this.contents.changeContents(changeContents);
         return this;
     }
 
