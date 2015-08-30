@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Random;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -57,6 +59,7 @@ public class User implements UserDetails {
     @Getter
     private String saltKey;
 
+    @ElementCollection(fetch=FetchType.EAGER)
     private List<UserAuthority> authorities;
 
     protected User() {

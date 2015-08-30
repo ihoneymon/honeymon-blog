@@ -3,15 +3,18 @@ package io.honeymon.blog.article;
 import io.honeymon.blog.system.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import org.springframework.data.jpa.domain.AbstractAuditable;
 import org.springframework.util.Assert;
@@ -21,19 +24,16 @@ import org.springframework.util.Assert;
  * @author honeymon
  *
  */
+@Entity
+@EqualsAndHashCode(of = { "title", "contents" }, callSuper = false)
+@ToString(of = { "title", "contents" }, callSuper = true)
 public class Post extends AbstractAuditable<User, Long> {
     private static final long serialVersionUID = -7081741681983185307L;
 
     @Getter
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @Getter
     private String title;
 
-    @OneToMany(orphanRemoval = true)
-    @Column(nullable = false)
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
     private PostContents contents;
 
     @ElementCollection
@@ -67,6 +67,10 @@ public class Post extends AbstractAuditable<User, Long> {
 
     public String getContets() {
         return this.contents.getContents();
+    }
+
+    public List<String> getTags() {
+        return Collections.unmodifiableList(this.tags);
     }
 
     /**

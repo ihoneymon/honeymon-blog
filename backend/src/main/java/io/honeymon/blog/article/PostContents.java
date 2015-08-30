@@ -5,11 +5,11 @@ package io.honeymon.blog.article;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,7 +25,7 @@ import org.springframework.util.Assert;
  */
 @Entity
 @ToString(of = { "id", "contents" })
-@EqualsAndHashCode(of = { "post" })
+@EqualsAndHashCode(of = { "post", "contents" })
 public class PostContents {
 
     @Getter
@@ -34,7 +34,8 @@ public class PostContents {
     private Long id;
 
     @Getter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn(name = "POST_ID")
     private Post post;
 
     @Getter
@@ -49,6 +50,7 @@ public class PostContents {
      * @param post
      */
     public PostContents(Post post) {
+        this();
         setPost(post);
     }
 
