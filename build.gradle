@@ -75,9 +75,12 @@ project(':backend') {
     compile "org.springframework.boot:spring-boot-starter-mustache"
     compile "org.springframework.boot:spring-boot-starter-security"
     compile "org.springframework.boot:spring-boot-starter-web"
+    compile "joda-time:joda-time"
     compile "org.projectlombok:lombok:1.16.6"
+    
     runtime "com.h2database:h2"
     runtime	project(':frontend')
+    
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testCompile("org.springframework.boot:spring-boot-starter-test") 
   }
