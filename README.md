@@ -7,3 +7,10 @@
 # 1. 목표
 * SpringBoot를 기반으로 한 설치형 블로그 애플리케이션을 만든다.
 * 분할되어 있는 티스토리 블로그의 포스트들을 이관하여 하나로 통합한다.
+
+# 2. 기능정의
+*
+
+# 3. 프로젝트 구조
+io.honeymon.blog.article
+io.honeymon.blog.system

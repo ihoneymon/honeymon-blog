@@ -1,0 +1,21 @@
+{
+  "name": "honeymon-blog-front",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ihoneymon/honeymon-blog",
+  "authors": [
+    "honeymon <ihoneymon@gmail.com>"
+  ],
+  "description": "Honeymon's blog frontend",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/libs",
+    "test",
+    "tests"
+  ]
+}

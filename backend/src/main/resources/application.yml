@@ -1,0 +1,42 @@
+#default execution profile
+spring.profiles.active: ${mode:local}
+
+spring:
+  application.name: Honeymon blog
+  jpa:
+    database: H2
+    show-sql: true
+
+---
+
+spring:
+  profiles: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+---
+
+spring:
+  profiles: test
+  datasource:
+    sql-script-encoding: UTF-8
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:honeymon-blog;CACHE_SIZE=10240;DB_CLOSE_ON_EXIT=FALSE     
+    username: sa
+    password:   
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+logging:
+  level:
+    io.honeymon.blog: DEBUG
+    org.springframework.web: DEBUG
+---
+
+spring:
+  profiles: prod
+  jpa:
+    hibernate:
+      ddl-auto: validate

@@ -11,59 +11,81 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse-wtp'
-apply plugin: 'idea'
-apply plugin: 'spring-boot' 
-apply plugin: 'io.spring.dependency-management' 
-apply plugin: 'war'
-
 
 ext {
 	baseName = "honeymon-blog"
 	baseVersion = "0.0.1-SNAPSHOT"
 }
 
-jar {
+configure(allprojects) {
+  apply plugin: 'java'
+  apply plugin: 'idea'
+  apply plugin: 'eclipse-wtp'
+  apply plugin: 'io.spring.dependency-management' 
+  
+  sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+
+  repositories {
+    mavenCentral()
+  }
+}
+
+project(':frontend') {
+  sourceSets.main.resources { 
+  	srcDirs 'dist' 
+  }
+	
+  jar {
+    from "dist"
+    includeEmptyDirs = false
+  }
+	
+  clean {
+    delete ".tmp"
+    delete "dist"
+  }
+}
+
+/**
+ * RESTful 하게 만들어봅시다.
+ */
+project(':backend') {
+  apply plugin: 'spring-boot' 
+  apply plugin: 'war'
+ 
+  jar {
 	baseName = baseName
 	version = baseVersion
-}
+  }
 
-war {
-    baseName = baseName
-    version = baseVersion
-}
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-configurations {
+  war {
+  	baseName = baseName
+	version = baseVersion
+  }
+ 
+  configurations {
     providedRuntime
-}
-
-dependencies {
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.springframework.boot:spring-boot-starter-mustache")
-    compile("org.springframework.boot:spring-boot-starter-security")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    runtime("com.h2database:h2")
+    all*.exclude module: 'commons-logging'
+  }
+	
+  dependencies {
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.springframework.boot:spring-boot-starter-mustache"
+    compile "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "joda-time:joda-time"
+    compile "org.projectlombok:lombok:1.16.6"
+    
+    runtime "com.h2database:h2"
+    runtime	project(':frontend')
+    
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testCompile("org.springframework.boot:spring-boot-starter-test") 
-}
-
-
-eclipse {
-    classpath {
-         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-    }
+  }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.6'
+  gradleVersion = '2.6'
 }
