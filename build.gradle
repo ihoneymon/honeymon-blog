@@ -29,7 +29,7 @@ configure(allprojects) {
   repositories {
     mavenCentral()
   }
-}
+} // and allproject
 
 project(':frontend') {
   sourceSets.main.resources { 
@@ -45,7 +45,7 @@ project(':frontend') {
     delete ".tmp"
     delete "dist"
   }
-}
+} // end frontend
 
 /**
  * RESTful 하게 만들어봅시다.
@@ -53,6 +53,10 @@ project(':frontend') {
 project(':backend') {
   apply plugin: 'spring-boot' 
   apply plugin: 'war'
+  //see: https://gradle.org/docs/current/userguide/checkstyle_plugin.html
+  apply plugin: 'checkstyle'
+  //see: https://gradle.org/docs/current/userguide/pmd_plugin.html
+  apply plugin: 'pmd'
  
   jar {
 	baseName = baseName
@@ -84,7 +88,31 @@ project(':backend') {
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testCompile("org.springframework.boot:spring-boot-starter-test") 
   }
-}
+  
+  checkstyle {
+	  configFile = file("checkstyle.xml")
+	  reportsDir = file("${buildDir}/checkstyle-output")
+	  ignoreFailures = true
+  }
+
+  checkstyleMain {	
+	  reports {
+		  xml.destination = file("${checkstyle.reportsDir}/checkstyle-report.xml")
+	  }
+  }
+
+  pmd {
+	  ignoreFailures = true
+	  reportsDir = file("${buildDir}/pmd-output")
+  }
+
+  pmdMain {
+	  reports {
+		  xml.destination = file("${pmd.reportsDir}/pmd-report.xml")
+		  xml.enabled = true
+	  }
+  }
+} //end backend
 
 task wrapper(type: Wrapper) {
   gradleVersion = '2.6'
