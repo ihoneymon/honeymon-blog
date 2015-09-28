@@ -39,9 +39,9 @@ public class PostRepositoryTest {
 
         postRepository.save(post);
 
-        assertThat(false, is(post.isNew()));
-        assertThat(title, is(post.getTitle()));
-        assertThat(contents, is(post.getContets()));
+        assertThat(post.isNew(), is(false));
+        assertThat(post.getTitle(), is(title));
+        assertThat(post.getContets(), is(contents));
         assertNotNull(post.getId());
     }
 
