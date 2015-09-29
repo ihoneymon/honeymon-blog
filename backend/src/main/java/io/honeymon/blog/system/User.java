@@ -29,7 +29,7 @@ import org.springframework.util.Assert;
  *
  */
 @Entity
-@ToString(of = { "id", "username", "nickname", "email" }, callSuper = true)
+@ToString(of = { "id", "username", "nickname", "email" }, callSuper = false)
 @EqualsAndHashCode(of = { "username", "email" })
 public class User implements UserDetails {
     private static final long serialVersionUID = 7019782042185736325L;
@@ -183,5 +183,12 @@ public class User implements UserDetails {
         this.password = changePassword;
 
         return this;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isNew() {
+        return null == this.id;
     }
 }

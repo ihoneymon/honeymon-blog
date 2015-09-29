@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final int PASSWORD_ENCODER_STRENTH = 301;
+    private static final int PASSWORD_ENCODER_STRENTH = 11;
 
     /**
      * 개발초기에는 스프링시큐리티 적용이 되지 않도록 한다.
