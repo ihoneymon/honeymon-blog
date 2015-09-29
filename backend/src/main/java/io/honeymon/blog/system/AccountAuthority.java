@@ -21,6 +21,11 @@ public enum AccountAuthority implements GrantedAuthority {
     COWORKER("host", "code.accessAuthority.host", "협력자"),
 
     /**
+     * 방문객: 방문록, 댓글 작성가능
+     */
+    GUEST("user", "code.accessAuthority.guest", "방문객"),
+    
+    /**
      * 기본권한: 읽기
      */
     USER("user", "code.accessAuthority.user", "사용자");
