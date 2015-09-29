@@ -34,4 +34,12 @@ public interface UserService {
      */
     void delete(User user);
 
+    /**
+     * Find User by username
+     * 
+     * @param username
+     * @return
+     */
+    User findByUserame(String username);
+
 }

@@ -1,19 +1,21 @@
 /**
  * 
  */
-package io.honeymon.blog.system;
+package io.honeymon.blog.security;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import io.honeymon.blog.BlogApplication;
-
-import java.util.List;
+import io.honeymon.blog.system.User;
+import io.honeymon.blog.system.UserService;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -28,14 +30,18 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringApplicationConfiguration(classes = BlogApplication.class)
 @ActiveProfiles("test")
 @WebAppConfiguration
-public class UserServiceTest {
+public class UserDetailServiceImplTest {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserDetailServiceImpl userDetailServiceImpl;
+
     private String username;
     private String password;
     private String nickname;
     private User user;
+    private User savedUser;
 
     @Before
     public void setUp() {
@@ -43,43 +49,30 @@ public class UserServiceTest {
         password = "pssword";
         nickname = "nickname";
         user = new User(username, password, nickname);
+        savedUser = userService.save(user);
     }
 
     @Test
-    public void test사용자저장() {
+    public void test등록된계정조회() {
         // given
 
         // when
-        User savedUser = userService.save(user);
+        UserDetails userDetails = userDetailServiceImpl.loadUserByUsername(username);
 
         // then
-        assertThat(savedUser, is(user));
-        assertThat(savedUser.isNew(), is(false));
-        assertThat(savedUser.getPassword(), is(not(password)));
+        assertThat(userDetails.getUsername(), is(username));
+        assertThat(userDetails.getPassword(), is(savedUser.getPassword()));
     }
 
-    @Test
-    public void test사용자조회() throws Exception {
+    @Test(expected = UsernameNotFoundException.class)
+    public void test등록되지않은계정조회() throws Exception {
         // given
-        User savedUser = userService.save(user);
+        String notExistUserName = "notExistUserName";
 
         // when
-        List<User> users = userService.findAll();
+        UserDetails userDetails = userDetailServiceImpl.loadUserByUsername(notExistUserName);
 
         // then
-        assertThat(users.contains(savedUser), is(true));
-    }
-
-    @Test
-    public void test사용자삭제() throws Exception {
-        // given
-        User savedUser = userService.save(user);
-
-        // when
-        userService.delete(user);
-
-        // when
-        List<User> users = userService.findAll();
-        assertThat(users.contains(savedUser), is(false));
+        fail();
     }
 }

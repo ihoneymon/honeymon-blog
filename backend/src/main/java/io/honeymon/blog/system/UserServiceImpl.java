@@ -61,4 +61,12 @@ public class UserServiceImpl implements UserService {
         userRepository.flush();
     }
 
+    /* (non-Javadoc)
+     * @see io.honeymon.blog.system.UserService#findByUserame(java.lang.String)
+     */
+    @Override
+    public User findByUserame(String username) {
+        return userRepository.findByUsername(username);
+    }
+
 }
