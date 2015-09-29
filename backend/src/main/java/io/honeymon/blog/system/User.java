@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -19,6 +20,7 @@ import lombok.ToString;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
 /**
  * 블로그 주인
@@ -45,9 +47,11 @@ public class User implements UserDetails {
      * 암호화된 비밀번호 저장
      */
     @Getter
+    @Column(nullable = false)
     private String password;
 
     @Getter
+    @Column(nullable = false)
     private String nickname;
 
     @Getter
@@ -57,30 +61,32 @@ public class User implements UserDetails {
     private String introduction;
 
     @Getter
-    private String saltKey;
+    private long saltKey;
 
-    @ElementCollection(fetch=FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<UserAuthority> authorities;
 
     protected User() {
         generateSaltKeyAndSet();
         registryDefaultUserAuthority();
     }
-    
+
     /**
+     * 
      * @param username
      * @param password
      * @param nickname
-     * @param email
      */
-    public User(String username, String password, String nickname, String email) {
+    public User(String username, String password, String nickname) throws IllegalArgumentException {
         this();
-        
+        Assert.hasText(username);
+        Assert.hasText(password);
+        Assert.hasText(nickname);
+
         this.username = username;
         this.password = password;
         this.nickname = nickname;
-        this.email = email;
-    }    
+    }
 
     /**
 	 * 
@@ -94,7 +100,7 @@ public class User implements UserDetails {
      * 암호화하는데 사용하는 속성으로 사용
      */
     private void generateSaltKeyAndSet() {
-        this.saltKey = "" + new Random().nextLong();
+        this.saltKey = new Random().nextLong();
     }
 
     @Override
@@ -120,5 +126,62 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    /**
+     * 
+     * @param changeAuthority
+     */
+    public void changeAuthority(List<UserAuthority> changeAuthority) {
+        this.authorities = filterUserAuthorities(changeAuthority);
+        ;
+    }
+
+    /**
+     * @param changeAuthority
+     * @return
+     */
+    private List<UserAuthority> filterUserAuthorities(List<UserAuthority> changeAuthority) {
+        List<UserAuthority> addAuthorities = changeAuthority.stream()
+                .filter(authority -> authority != UserAuthority.USER).collect(Collectors.toList());
+        addAuthorities.add(UserAuthority.USER);
+        return addAuthorities;
+    }
+
+    /**
+     * @param compareAuthority
+     *            {@link UserAuthority}
+     * @return true: has, false: doesn't have
+     */
+    public boolean hasAuthority(UserAuthority compareAuthority) {
+        return this.authorities.stream().anyMatch(authority -> authority == compareAuthority);
+    }
+
+    /**
+     * 
+     * @param changeNickname
+     * @return nickname changed {@link User}
+     * @throws IllegalArgumentException
+     */
+    public User changeName(String changeNickname) throws IllegalArgumentException {
+        Assert.hasText(changeNickname);
+
+        this.nickname = changeNickname;
+
+        return this;
+    }
+
+    /**
+     * 
+     * @param changePassword
+     * @return password changed {@link User}
+     * @throws IllegalArgumentException
+     */
+    public User changePassword(String changePassword) throws IllegalArgumentException {
+        Assert.hasText(changePassword);
+
+        this.password = changePassword;
+
+        return this;
     }
 }
