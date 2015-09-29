@@ -31,7 +31,7 @@ import org.springframework.util.Assert;
 @Entity
 @ToString(of = { "id", "username", "nickname", "email" }, callSuper = false)
 @EqualsAndHashCode(of = { "username", "email" })
-public class User implements UserDetails {
+public class Account implements UserDetails {
     private static final long serialVersionUID = 7019782042185736325L;
 
     @Getter
@@ -64,9 +64,9 @@ public class User implements UserDetails {
     private long saltKey;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<UserAuthority> authorities;
+    private List<AccountAuthority> authorities;
 
-    protected User() {
+    protected Account() {
         generateSaltKeyAndSet();
         registryDefaultUserAuthority();
     }
@@ -77,7 +77,7 @@ public class User implements UserDetails {
      * @param password
      * @param nickname
      */
-    public User(String username, String password, String nickname) throws IllegalArgumentException {
+    public Account(String username, String password, String nickname) throws IllegalArgumentException {
         this();
         Assert.hasText(username);
         Assert.hasText(password);
@@ -93,7 +93,7 @@ public class User implements UserDetails {
 	 */
     private void registryDefaultUserAuthority() {
         this.authorities = new ArrayList<>();
-        this.authorities.add(UserAuthority.USER);
+        this.authorities.add(AccountAuthority.USER);
     }
 
     /**
@@ -132,7 +132,7 @@ public class User implements UserDetails {
      * 
      * @param changeAuthority
      */
-    public void changeAuthority(List<UserAuthority> changeAuthority) {
+    public void changeAuthority(List<AccountAuthority> changeAuthority) {
         this.authorities = filterUserAuthorities(changeAuthority);
         ;
     }
@@ -141,29 +141,29 @@ public class User implements UserDetails {
      * @param changeAuthority
      * @return
      */
-    private List<UserAuthority> filterUserAuthorities(List<UserAuthority> changeAuthority) {
-        List<UserAuthority> addAuthorities = changeAuthority.stream()
-                .filter(authority -> authority != UserAuthority.USER).collect(Collectors.toList());
-        addAuthorities.add(UserAuthority.USER);
+    private List<AccountAuthority> filterUserAuthorities(List<AccountAuthority> changeAuthority) {
+        List<AccountAuthority> addAuthorities = changeAuthority.stream()
+                .filter(authority -> authority != AccountAuthority.USER).collect(Collectors.toList());
+        addAuthorities.add(AccountAuthority.USER);
         return addAuthorities;
     }
 
     /**
      * @param compareAuthority
-     *            {@link UserAuthority}
+     *            {@link AccountAuthority}
      * @return true: has, false: doesn't have
      */
-    public boolean hasAuthority(UserAuthority compareAuthority) {
+    public boolean hasAuthority(AccountAuthority compareAuthority) {
         return this.authorities.stream().anyMatch(authority -> authority == compareAuthority);
     }
 
     /**
      * 
      * @param changeNickname
-     * @return nickname changed {@link User}
+     * @return nickname changed {@link Account}
      * @throws IllegalArgumentException
      */
-    public User changeName(String changeNickname) throws IllegalArgumentException {
+    public Account changeName(String changeNickname) throws IllegalArgumentException {
         Assert.hasText(changeNickname);
 
         this.nickname = changeNickname;
@@ -174,10 +174,10 @@ public class User implements UserDetails {
     /**
      * 
      * @param changePassword
-     * @return password changed {@link User}
+     * @return password changed {@link Account}
      * @throws IllegalArgumentException
      */
-    public User changePassword(String changePassword) throws IllegalArgumentException {
+    public Account changePassword(String changePassword) throws IllegalArgumentException {
         Assert.hasText(changePassword);
 
         this.password = changePassword;

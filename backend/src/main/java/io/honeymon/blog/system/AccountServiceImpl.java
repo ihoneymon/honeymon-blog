@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(readOnly = true)
-public class UserServiceImpl implements UserService {
+public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private UserRepository userRepository;
+    private AccountRepository userRepository;
 
     /*
      * (non-Javadoc)
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @Override
-    public User save(User user) {
+    public Account save(Account user) {
         changePasswordToEncodedPassword(user);
         return userRepository.saveAndFlush(user);
     }
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     /**
      * @param user
      */
-    private void changePasswordToEncodedPassword(User user) {
+    private void changePasswordToEncodedPassword(Account user) {
         user.changePassword(passwordEncoder.encode(user.getPassword()));
     }
 
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
      * @see io.honeymon.blog.system.UserService#findAll()
      */
     @Override
-    public List<User> findAll() {
+    public List<Account> findAll() {
         return userRepository.findAll();
     }
 
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @Override
-    public void delete(User user) {
+    public void delete(Account user) {
         userRepository.delete(user);
         userRepository.flush();
     }
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
      * @see io.honeymon.blog.system.UserService#findByUserame(java.lang.String)
      */
     @Override
-    public User findByUserame(String username) {
+    public Account findByUserame(String username) {
         return userRepository.findByUsername(username);
     }
 

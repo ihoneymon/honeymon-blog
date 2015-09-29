@@ -1,6 +1,6 @@
 package io.honeymon.blog.article;
 
-import io.honeymon.blog.system.User;
+import io.honeymon.blog.system.Account;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +27,7 @@ import org.springframework.util.Assert;
 @Entity
 @EqualsAndHashCode(of = { "title", "contents" }, callSuper = false)
 @ToString(of = { "title", "contents" }, callSuper = true)
-public class Post extends AbstractAuditable<User, Long> {
+public class Post extends AbstractAuditable<Account, Long> {
     private static final long serialVersionUID = -7081741681983185307L;
 
     @Getter

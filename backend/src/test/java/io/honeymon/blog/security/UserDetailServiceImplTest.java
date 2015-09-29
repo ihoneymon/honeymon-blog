@@ -6,8 +6,8 @@ package io.honeymon.blog.security;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import io.honeymon.blog.BlogApplication;
-import io.honeymon.blog.system.User;
-import io.honeymon.blog.system.UserService;
+import io.honeymon.blog.system.Account;
+import io.honeymon.blog.system.AccountService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,22 +33,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDetailServiceImplTest {
 
     @Autowired
-    private UserService userService;
+    private AccountService userService;
     @Autowired
     private UserDetailServiceImpl userDetailServiceImpl;
 
     private String username;
     private String password;
     private String nickname;
-    private User user;
-    private User savedUser;
+    private Account user;
+    private Account savedUser;
 
     @Before
     public void setUp() {
         username = "honeymon";
         password = "pssword";
         nickname = "nickname";
-        user = new User(username, password, nickname);
+        user = new Account(username, password, nickname);
         savedUser = userService.save(user);
     }
 

@@ -3,8 +3,8 @@
  */
 package io.honeymon.blog.security;
 
-import io.honeymon.blog.system.User;
-import io.honeymon.blog.system.UserService;
+import io.honeymon.blog.system.Account;
+import io.honeymon.blog.system.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    private AccountService userService;
 
     /*
      * (non-Javadoc)
@@ -30,7 +30,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByUserame(username);
+        Account user = userService.findByUserame(username);
         if (null == user) {
             throw new UsernameNotFoundException(username);
         }

@@ -15,7 +15,7 @@ import org.junit.Test;
  * @author honeymon
  *
  */
-public class UserTest {
+public class AccountTest {
 
     /**
      * 사용자 정보 최초생성시 무엇을 필요로 할까나...
@@ -29,7 +29,7 @@ public class UserTest {
         String nickname = "nickname";
 
         // when
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         // then
         fail();
@@ -43,7 +43,7 @@ public class UserTest {
         String nickname = "nickname";
 
         // when
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         // then
         fail();
@@ -57,7 +57,7 @@ public class UserTest {
         String nickname = null;
 
         // when
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         // then
         fail();
@@ -71,13 +71,13 @@ public class UserTest {
         String nickname = "nickname";
 
         // when
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         // then
         assertThat(user.getUsername(), is(username));
         assertThat(user.getPassword(), is(password));
         assertThat(user.getNickname(), is(nickname));
-        assertThat(user.getAuthorities().contains(UserAuthority.USER), is(true));
+        assertThat(user.getAuthorities().contains(AccountAuthority.USER), is(true));
     }
 
     @Test
@@ -86,16 +86,16 @@ public class UserTest {
         String username = "honeymon";
         String password = "pssword";
         String nickname = "nickname";
-        User user = new User(username, password, nickname);
-        List<UserAuthority> changeAuthority = new ArrayList<>();
-        changeAuthority.add(UserAuthority.HOST);
+        Account user = new Account(username, password, nickname);
+        List<AccountAuthority> changeAuthority = new ArrayList<>();
+        changeAuthority.add(AccountAuthority.HOST);
 
         // when
         user.changeAuthority(changeAuthority);
 
         // then
-        assertThat(user.getAuthorities().contains(UserAuthority.USER), is(true));
-        assertThat(user.getAuthorities().contains(UserAuthority.HOST), is(true));
+        assertThat(user.getAuthorities().contains(AccountAuthority.USER), is(true));
+        assertThat(user.getAuthorities().contains(AccountAuthority.HOST), is(true));
     }
 
     @Test
@@ -104,11 +104,11 @@ public class UserTest {
         String username = "honeymon";
         String password = "pssword";
         String nickname = "nickname";
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         // then
-        assertThat(user.hasAuthority(UserAuthority.USER), is(true));
-        assertThat(user.hasAuthority(UserAuthority.HOST), is(false));
+        assertThat(user.hasAuthority(AccountAuthority.USER), is(true));
+        assertThat(user.hasAuthority(AccountAuthority.HOST), is(false));
     }
 
     @Test
@@ -117,7 +117,7 @@ public class UserTest {
         String username = "honeymon";
         String password = "pssword";
         String nickname = "nickname";
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         String changeNickname = "Change nickname";
 
@@ -135,7 +135,7 @@ public class UserTest {
         String username = "honeymon";
         String password = "pssword";
         String nickname = "nickname";
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         // when
         user.changeName(null);
@@ -150,7 +150,7 @@ public class UserTest {
         String username = "honeymon";
         String password = "pssword";
         String nickname = "nickname";
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         // when
         user.changeName("");
@@ -165,7 +165,7 @@ public class UserTest {
         String username = "honeymon";
         String password = "pssword";
         String nickname = "nickname";
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         String changePassword = "Change password";
 
@@ -183,7 +183,7 @@ public class UserTest {
         String username = "honeymon";
         String password = "pssword";
         String nickname = "nickname";
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         String changePassword = null;
 
@@ -200,7 +200,7 @@ public class UserTest {
         String username = "honeymon";
         String password = "pssword";
         String nickname = "nickname";
-        User user = new User(username, password, nickname);
+        Account user = new Account(username, password, nickname);
 
         String changePassword = "";
 

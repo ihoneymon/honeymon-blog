@@ -28,21 +28,21 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringApplicationConfiguration(classes = BlogApplication.class)
 @ActiveProfiles("test")
 @WebAppConfiguration
-public class UserServiceTest {
+public class AccountServiceTest {
 
     @Autowired
-    private UserService userService;
+    private AccountService userService;
     private String username;
     private String password;
     private String nickname;
-    private User user;
+    private Account user;
 
     @Before
     public void setUp() {
         username = "honeymon";
         password = "pssword";
         nickname = "nickname";
-        user = new User(username, password, nickname);
+        user = new Account(username, password, nickname);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class UserServiceTest {
         // given
 
         // when
-        User savedUser = userService.save(user);
+        Account savedUser = userService.save(user);
 
         // then
         assertThat(savedUser, is(user));
@@ -61,10 +61,10 @@ public class UserServiceTest {
     @Test
     public void test사용자조회() throws Exception {
         // given
-        User savedUser = userService.save(user);
+        Account savedUser = userService.save(user);
 
         // when
-        List<User> users = userService.findAll();
+        List<Account> users = userService.findAll();
 
         // then
         assertThat(users.contains(savedUser), is(true));
@@ -73,13 +73,13 @@ public class UserServiceTest {
     @Test
     public void test사용자삭제() throws Exception {
         // given
-        User savedUser = userService.save(user);
+        Account savedUser = userService.save(user);
 
         // when
         userService.delete(user);
 
         // when
-        List<User> users = userService.findAll();
+        List<Account> users = userService.findAll();
         assertThat(users.contains(savedUser), is(false));
     }
 }

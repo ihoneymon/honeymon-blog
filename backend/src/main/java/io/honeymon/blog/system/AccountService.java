@@ -11,28 +11,28 @@ import java.util.List;
  * @author honeymon
  *
  */
-public interface UserService {
+public interface AccountService {
 
     /**
      * @param user
-     *            new {@link User}
+     *            new {@link Account}
      * @return
      */
-    User save(User user);
+    Account save(Account user);
 
     /**
-     * FindAll {@link User}
+     * FindAll {@link Account}
      * 
      * @return
      */
-    List<User> findAll();
+    List<Account> findAll();
 
     /**
-     * Delete {@link User}
+     * Delete {@link Account}
      * 
      * @param user
      */
-    void delete(User user);
+    void delete(Account user);
 
     /**
      * Find User by username
@@ -40,6 +40,6 @@ public interface UserService {
      * @param username
      * @return
      */
-    User findByUserame(String username);
+    Account findByUserame(String username);
 
 }

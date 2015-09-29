@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface AccountRepository extends JpaRepository<Account, Long> {
 
     /**
      * @param username
      * @return
      */
-    User findByUsername(String username);
+    Account findByUsername(String username);
 
 }

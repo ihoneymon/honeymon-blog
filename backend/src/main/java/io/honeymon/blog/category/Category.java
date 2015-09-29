@@ -3,7 +3,7 @@
  */
 package io.honeymon.blog.category;
 
-import io.honeymon.blog.system.User;
+import io.honeymon.blog.system.Account;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +30,7 @@ import org.springframework.util.Assert;
 @Getter
 @ToString(exclude = { "parent" }, callSuper = true)
 @EqualsAndHashCode(of = { "parent", "name", "depth" }, callSuper = false)
-public class Category extends AbstractAuditable<User, Long> {
+public class Category extends AbstractAuditable<Account, Long> {
     private static final long serialVersionUID = -2825422148186092999L;
 
     private static final int DEPTH_STEP = 1;
