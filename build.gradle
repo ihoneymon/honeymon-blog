@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.2.5.RELEASE'
+        springBootVersion = '1.2.6.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -115,5 +115,5 @@ project(':backend') {
 } //end backend
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.6'
+  gradleVersion = '2.7'
 }

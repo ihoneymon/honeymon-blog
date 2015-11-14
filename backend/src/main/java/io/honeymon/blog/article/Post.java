@@ -41,27 +41,27 @@ public class Post extends AbstractAuditable<Account, Long> {
 
     protected Post() {
         this.tags = new ArrayList<>();
-        this.contents = new PostContents(this);
     }
 
     /**
-     * @param object
+     * @param title
      * @param contents
      */
     public Post(String title, String contents) {
         this();
         setTitle(title);
-        Assert.hasText(contents, "error.post.required.contents");
-        this.contents = new PostContents(this, contents);
+        setContent(contents);
     }
 
-    /**
-     * @param title
-     * @return
-     */
     private Post setTitle(String title) {
         Assert.hasText(title, "error.post.required.title");
         this.title = title;
+        return this;
+    }
+
+    private Post setContent(String contents) {
+        Assert.hasText(contents, "error.post.required.contents");
+        this.contents = new PostContents(this, contents);
         return this;
     }
 
