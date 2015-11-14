@@ -37,7 +37,7 @@ public class PostCreateServiceTest {
         PostDto postDto = new PostDto();
         postDto.setTitle(title);
         postDto.setContents(contents);
-        
+
         // when
         Post post = postCreateService.create(postDto);
 
@@ -45,5 +45,69 @@ public class PostCreateServiceTest {
         assertThat(post.isNew(), is(false));
         assertThat(post.getTitle(), is(title));
         assertThat(post.getContets(), is(contents));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPost제목이_null인경우_예외발생() throws Exception {
+        // given
+        String title = null;
+        String contents = "Test contents";
+        PostDto postDto = new PostDto();
+        postDto.setTitle(title);
+        postDto.setContents(contents);
+
+        // when
+        postCreateService.create(postDto);
+
+        // then
+        fail();
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testPost제목이_빈공백문자인경우_예외발생() throws Exception {
+        // given
+        String title = "";
+        String contents = "Test contents";
+        PostDto postDto = new PostDto();
+        postDto.setTitle(title);
+        postDto.setContents(contents);
+
+        // when
+        postCreateService.create(postDto);
+
+        // then
+        fail();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPost의contents가null인경우_예외발생() throws Exception {
+        // given
+        String title = "Test post";
+        String contents = null;
+        PostDto postDto = new PostDto();
+        postDto.setTitle(title);
+        postDto.setContents(contents);
+
+        // when
+        postCreateService.create(postDto);
+
+        // then
+        fail();
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testPost의contents가_빈문자인경우_예외발생() throws Exception {
+        // given
+        String title = "Test post";
+        String contents = "";
+        PostDto postDto = new PostDto();
+        postDto.setTitle(title);
+        postDto.setContents(contents);
+
+        // when
+        postCreateService.create(postDto);
+
+        // then
+        fail();
     }
 }
